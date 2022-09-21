@@ -1,7 +1,8 @@
-import { Entity, Column, Index, BeforeInsert } from 'typeorm'
+import { Entity, Column, Index, BeforeInsert, OneToMany } from 'typeorm'
 import Model from './model.entity'
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
+import { Todo } from './todos.entity'
 
 export enum RoleEnumType {
   USER = 'user',
@@ -46,9 +47,8 @@ export class User extends Model {
   })
   verificationCode!: string | null
 
-  toJSON() {
-    return { ...this, password: undefined, verified: undefined }
-  }
+  @OneToMany(() => Todo, (todo) => todo.user)
+  todos: Todo[]
 
   // Hash password before saving to database
   @BeforeInsert()
@@ -73,5 +73,14 @@ export class User extends Model {
       .digest('hex')
 
     return { verificationCode, hashedVerificationCode }
+  }
+
+  toJSON() {
+    return {
+      ...this,
+      password: undefined,
+      verified: undefined,
+      verificationCode: undefined,
+    }
   }
 }

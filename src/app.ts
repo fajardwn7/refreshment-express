@@ -10,6 +10,7 @@ import { AppDataSource } from './utils/dataSource'
 import AppError from './utils/appError'
 import authRouter from './routes/auth.routes'
 import userRouter from './routes/user.routes'
+import todoRouter from './routes/todo.routes'
 import validateEnv from './utils/validateEnv'
 import redisClient from './utils/connectRedis'
 
@@ -46,6 +47,7 @@ AppDataSource.initialize()
     // ROUTES
     app.use('/api/auth', authRouter)
     app.use('/api/users', userRouter)
+    app.use('/api/todos', todoRouter)
 
     // HEALTH CHECKER
     app.get('/api/healthChecker', async (_, res: Response) => {
