@@ -10,19 +10,20 @@ import {
   getTodosHandler,
   updateTodoHandler,
 } from '../controllers/todo.controller'
+import { uploadPostImageDisk } from '../utils/upload/singleLocal'
 
 const router = express.Router()
 
 router.use(deserializeUser, requireUser)
 router
   .route('/')
-  .post(validate(CreateTodoDto), createTodoHandler)
+  .post(uploadPostImageDisk, validate(CreateTodoDto), createTodoHandler)
   .get(getTodosHandler)
 
 router
   .route('/:todoId')
   .get(getTodoHandler)
-  .patch(validate(UpdateTodoDto, true), updateTodoHandler)
+  .patch(uploadPostImageDisk, validate(UpdateTodoDto, true), updateTodoHandler)
   .delete(deleteTodoHandler)
 
 export default router

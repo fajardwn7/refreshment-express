@@ -1,4 +1,10 @@
-import { IsString, IsDateString, MaxLength, IsBoolean } from 'class-validator'
+import {
+  IsString,
+  IsDateString,
+  MaxLength,
+  IsBoolean,
+  IsOptional,
+} from 'class-validator'
 import { Trim } from 'class-sanitizer'
 
 export class CreateTodoDto {
@@ -16,7 +22,13 @@ export class CreateTodoDto {
   deadline: Date
 
   @IsBoolean()
-  isDone: boolean
+  @IsOptional()
+  isDone?: boolean
+
+  @IsString()
+  @IsOptional()
+  @Trim()
+  image?: string
 }
 
 export class UpdateTodoDto {
@@ -34,5 +46,11 @@ export class UpdateTodoDto {
   deadline?: Date
 
   @IsBoolean()
+  @IsOptional()
   isDone?: boolean
+
+  @IsString()
+  @IsOptional()
+  @Trim()
+  image?: string
 }
